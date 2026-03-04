@@ -141,10 +141,10 @@ M.execute_curl = function()
 			buffers.set_output_buffer_content(executed_from_win, parsed_output)
 		end,
 		on_stdout = function(_, data, _)
-			output = output .. vim.fn.join(data)
+			output = output .. table.concat(data, "\n")
 		end,
 		on_stderr = function(_, data, _)
-			error = error .. vim.fn.join(data)
+			error = error .. table.concat(data, "\n")
 		end,
 	})
 end

@@ -63,7 +63,10 @@ M.parse_curl_output = function(curl_standard_out)
 		return run_jq(curl_standard_out)
 	end
 
-	local output_table = vim.split(curl_standard_out, "\r")
+	-- Replace all \r\n and stray \r with standard \n
+	local clean_out = curl_standard_out:gsub("\r\n", "\n"):gsub("\r", "\n")
+	-- Split cleanly. No invisible \r characters will corrupt the Neovim buffer!
+	local output_table = vim.split(clean_out, "\n")
 	local header_lines, json_string = extract_json(output_table)
 
 	if json_string == nil then
